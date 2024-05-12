@@ -1,0 +1,41 @@
+﻿@model IEnumerable<jobPortal.Models.ApplyJob>
+
+@{
+    ViewData["Title"] = "My Applications";
+}
+
+
+
+<h2>@ViewData["Title"]</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Job Category</th>
+            <th>Date Applied</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (var application in Model)
+        {
+            <tr>
+                @{
+                    var job = Model.FirstOrDefault(a => a.JobId == application.JobId)?.Job;
+                }
+                <td>@job.JobCategory</td>
+                <td>@application.Date.ToString("dd/MM/yyyy")</td>
+                <td>@application.State</td>
+                <td>
+                    <a asp-action="ShowJob" asp-controller="Apply" asp-route-id="@application.JobId">Details</a>
+                </td>
+            </tr>
+        }
+ 
+    </tbody>
+</table>
+<p>
+    <a href="@Url.Action("Profile", "LoginUser")" class="btn btn-primary">Return to Profile</a>
+</p>

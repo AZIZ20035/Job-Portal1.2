@@ -1,0 +1,118 @@
+﻿@using jobPortal.Models
+@model Company
+@{
+    ViewBag.Title = "Index";
+}
+
+<style>
+    .user-details-card,
+    .user-photo-card {
+        margin-bottom: 20px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+        .user-details-card .card-body,
+        .user-photo-card .card-body {
+            padding: 20px;
+        }
+
+        .user-details-card h2,
+        .user-photo-card h2 {
+            color: #007bff;
+        }
+
+    .user-details-card {
+        min-height: 200px;
+    }
+
+    .user-photo-card img {
+        width: 100%;
+        max-width: 200px;
+        height: auto;
+        border-radius: 50%;
+    }
+
+    .card-body h3 {
+        margin-bottom: 50px;
+    }
+
+    .button-container {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+    }
+
+    .created button,
+    .solved button {
+        background-color: #003971;
+        color: #fff;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        margin-right: 10px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+        .created button:hover,
+        .solved button:hover {
+            background-color: #00264d;
+        }
+</style>
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card user-details-card">
+                <div class="card-body">
+                    <h2 class="card-title">User Details</h2>
+                    <h3 class="card-text"><strong>Full Name:</strong> @Model.CompanyName</h3>
+                    <h3 class="card-text"><strong>Email:</strong> @Model.CompanyEmail</h3>
+                    <h3 class="card-text"><strong>Description:</strong> @Model.CompanyDescription</h3>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card user-photo-card">
+                <div class="card-body text-center">
+                    <h2 class="card-title">User Photo</h2>
+                    @if (!string.IsNullOrEmpty(@Model.PhotoPath))
+                    {
+                        var imagePath = Url.Content($"~/images/{@Model.PhotoPath}");
+                        <img src="@imagePath" alt="User Photo" />
+                    }
+                    else
+                    {
+                        <p>No Photo</p>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="button-container">
+        <form asp-controller="Job" asp-action="alljobs">
+            <div class="solved">
+                <button class="btn">My posted jobs</button>
+            </div>
+        </form>
+        <form asp-controller="LoginCompany" asp-action="DeleteConfirmation" asp-route-id="@Model.CompanyId">
+            <div class="solved">
+                <button class="btn">Delete Account</button>
+            </div>
+        </form>
+
+        <form asp-controller="LoginCompany" asp-route-id="@Model?.CompanyId" asp-action="Edit">
+            <div class="solved">
+                <button class="btn">Edit Account</button>
+            </div>
+        </form>
+
+        <form asp-controller="LoginCompany" asp-route-id="@Model.CompanyId" asp-action="Details">
+            <div class="solved">
+                <button class="btn">Details Account</button>
+            </div>
+        </form>
+
+    </div>
+</div>
